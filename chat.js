@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 
 function Chat() {
   const [recipient, setRecipient] = useState('');
   const [message, setMessage] = useState('');
-
+  const loggedInUserJID ='huy@gp2023.duckdns.org';
   const handleRecipientChange = (e) => {
     setRecipient(e.target.value);
   };
@@ -12,18 +13,29 @@ function Chat() {
     setMessage(e.target.value);
   };
 
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const sendMessageData = {
+      type: 'headline',
+      from: loggedInUserJID, // Use the JID of the logged-in user
+      to: recipient,
+      subject: 'subject',
+      body: message,
+    };
+
+    // Send the message to the server
+    sendMessage(sendMessageData);
+  };
 
   const sendMessage = async (data) => {
     try {
-      const response = await fetch('http://gp2023.duckdns.org/api/send_message', {
+      const response = await fetch('http://gp2023.duckdns.org:5280/api/send_message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        "to": "user1@localhost",
         body: JSON.stringify(data),
-
       });
 
       if (response.ok) {
@@ -37,17 +49,6 @@ function Chat() {
       console.error('Unexpected error occurred', error);
       // Handle error, e.g., show an error message
     }
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-/*
-    const sendMessageData = {
-      recipient: recipient,
-      message: message,
-    };
-
-    // Send the message to the server
-    sendMessage(sendMessageData);*/
   };
 
   return (
