@@ -17,7 +17,7 @@ function Login() {
     });
     xmpp.on("online", (address) => {
       console.log("online as", address.toString())
-      navigate("/chat", { state: { username: username } });
+      navigate("/chat", { state: { username, password } });
     });
   
     
