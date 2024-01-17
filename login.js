@@ -28,6 +28,10 @@ function Login() {
   
     
     xmpp.start().catch(console.error);
+    return () => {
+      // Clean up the client instance and event listeners
+      xmpp.stop();
+    };
   };
 
   const [username, setUsername] = React.useState("");
